@@ -47,13 +47,11 @@ if __name__ == "__main__":
 
         print(":::::::::::::::::::// FLOYD WARSHALL //:::::::::::::::::::")
         
-        """ inicio_tempo = time.time()
+        inicio_tempo = time.time()
         caminhos = algoritmos.floyd_warshall(rede, vertice_origem, vertice_destino, vertices_na_rede, arcos_na_rede)
         fim_tempo = time.time()
-        print("Caminhos: ",caminhos)
-        print("Caminho custo mínimo: ", caminhos[-1])
         print("Tempo de execução: ", fim_tempo - inicio_tempo)
-        print("::::::::::::::::::://:::::::::::::::::::") """
+        print("::::::::::::::::::://:::::::::::::::::::")
     except Exception as e:
         print(e)
 

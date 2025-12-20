@@ -130,18 +130,29 @@ def dijkstra(rede : dict, vertice_origem : int, vertice_destino : int, vertices_
     return caminhos
 
 
+
+
 def floyd_warshall(rede : dict, vertice_origem : int, vertice_destino : int, vertices_na_rede : list , arcos_na_rede : list):
     tamanho = len(vertices_na_rede)
-    
-    matriz_pesos = []
-    matriz_rede = []
+
+    matriz_pesos = [[vertices_na_rede[j] for j in range(tamanho)] for _ in range(tamanho)]
+
+    matriz_rede = [[float("inf") for _ in range(tamanho)] for _ in range(tamanho)]
+
+    for arco in arcos_na_rede:
+        matriz_rede[arco["de"] - 1][arco["para"] - 1] = arco["custo"]
 
     
     for j in range(len(vertices_na_rede)):
         for i in range(len(vertices_na_rede)):
             for k in range(len(vertices_na_rede)):
-                if matriz_pesos[i][k] > matriz_pesos[i][j] + matriz_pesos[j][k]:
-                    matriz_pesos[i][k] = matriz_pesos[i][j] + matriz_pesos[j][k]
-                    matriz_rede[i][k] = matriz_rede[i][j]
-        
-        
+                if matriz_rede[i][k] > matriz_rede[i][j] + matriz_rede[j][k]:
+                    matriz_rede[i][k] = matriz_rede[i][j] + matriz_rede[j][k]
+                    matriz_pesos[i][k] = matriz_pesos[i][j]
+    
+    for matriz in matriz_rede:
+        print(matriz)
+
+    for matriz in matriz_pesos:
+        print(matriz)
+
