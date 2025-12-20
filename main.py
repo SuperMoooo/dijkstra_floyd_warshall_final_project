@@ -8,16 +8,52 @@
 # Floyd-Warshall aceita custo negativo, mas não ciclos negativos
 
 import gerador_redes, algoritmos
-
+import time
 
 if __name__ == "__main__":
     # gerar_rede(numero de vertices, numero de arcos, custo_minimo ,custo_maximo)
     rede = gerador_redes.gerar_rede(10, 20, 0, 20)
     print(rede)
+
+    vertice_origem = 0
+    vertice_destino = 0
+
+    vertices_na_rede : list = rede["vertices"]
+    arcos_na_rede : list = rede["arcos"]
+
+     # loop enquanto o utilizador não escolher um vértice que exista na rede
+    while vertice_origem not in vertices_na_rede:
+        if vertice_origem != 0:
+            print("Erro! O vértice de origem escolhido não é válido.")
+
+        vertice_origem = int(input("Digite o vértice de ORIGEM: "))
+
+    # ´´ e verifica se o vértice de destion é diferente do da origem
+    while vertice_destino not in vertices_na_rede or vertice_destino == vertice_origem:
+        if vertice_destino != 0:
+            print("Erro! O vértice de destino escolhido não é válido.")
+
+        vertice_destino = int(input("Digite o vértice de DESTINO: "))
+
+        
+    print(":::::::::::::::::::// DIJKSTRA //:::::::::::::::::::")
     try:
-        caminhos = algoritmos.dijkstra(rede)
-        print(caminhos)
-        print("Caminho Final: ", caminhos[-1])
+        inicio_tempo = time.time()
+        caminhos = algoritmos.dijkstra(rede, vertice_origem, vertice_destino, vertices_na_rede, arcos_na_rede)
+        fim_tempo = time.time()
+        print("Caminhos: ",caminhos)
+        print("Caminho custo mínimo: ", caminhos[-1])
+        print("Tempo de execução: ", fim_tempo - inicio_tempo)
+
+        print(":::::::::::::::::::// FLOYD WARSHALL //:::::::::::::::::::")
+        
+        """ inicio_tempo = time.time()
+        caminhos = algoritmos.floyd_warshall(rede, vertice_origem, vertice_destino, vertices_na_rede, arcos_na_rede)
+        fim_tempo = time.time()
+        print("Caminhos: ",caminhos)
+        print("Caminho custo mínimo: ", caminhos[-1])
+        print("Tempo de execução: ", fim_tempo - inicio_tempo)
+        print("::::::::::::::::::://:::::::::::::::::::") """
     except Exception as e:
         print(e)
 

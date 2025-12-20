@@ -1,27 +1,6 @@
 from utils import *
 
-def dijkstra(rede : dict):
-    vertice_origem = 0
-    vertice_destino = 0
-
-    vertices_na_rede : list = rede["vertices"]
-    arcos_na_rede : list = rede["arcos"]
-
-    print("Vértices: ", vertices_na_rede)
-
-    # loop enquanto o utilizador não escolher um vértice que exista na rede
-    while vertice_origem not in vertices_na_rede:
-        if vertice_origem != 0:
-            print("Erro! O vértice de origem escolhido não é válido.")
-
-        vertice_origem = int(input("Digite o vértice de ORIGEM: "))
-
-    # ´´ e verifica se o vértice de destion é diferente do da origem
-    while vertice_destino not in vertices_na_rede or vertice_destino == vertice_origem:
-        if vertice_destino != 0:
-            print("Erro! O vértice de destino escolhido não é válido.")
-
-        vertice_destino = int(input("Digite o vértice de DESTINO: "))
+def dijkstra(rede : dict, vertice_origem : int, vertice_destino : int, vertices_na_rede : list , arcos_na_rede : list):
 
     # caminho final
     caminhos = [{
@@ -115,7 +94,7 @@ def dijkstra(rede : dict):
 
         # ATUAL
         min_custo = melhores_custos[min_vertice]["custo"]
-        vert_origem = melhores_custos[min_vertice]["origem"]
+        min_vert_origem = melhores_custos[min_vertice]["origem"]
 
         
 
@@ -129,18 +108,15 @@ def dijkstra(rede : dict):
         novo_caminho = []
         for vertice in caminhos[-1]["caminho"]:
             novo_caminho.append(vertice)
-            if vertice == vert_origem:
+            if vertice == min_vert_origem:
                 break
         novo_caminho.append(min_vertice)
 
         # guardar os novos custos
         novos_custos = []
-        contador = 0
-        for custo in caminhos[-1]["custos"]:
-            novos_custos.append(custo)
-            if custo == min_custo or contador == len(novo_caminho):
-                break
-            contador += 1
+        for index in range(len(novo_caminho) - 1):
+            novos_custos.append(caminhos[-1]["custos"][index])
+            
         novos_custos.append(min_custo)
        
         caminhos.append({
@@ -154,5 +130,18 @@ def dijkstra(rede : dict):
     return caminhos
 
 
-def floyd_warshall(rede : dict):
-    pass
+def floyd_warshall(rede : dict, vertice_origem : int, vertice_destino : int, vertices_na_rede : list , arcos_na_rede : list):
+    tamanho = len(vertices_na_rede)
+    
+    matriz_pesos = []
+    matriz_rede = []
+
+    
+    for j in range(len(vertices_na_rede)):
+        for i in range(len(vertices_na_rede)):
+            for k in range(len(vertices_na_rede)):
+                if matriz_pesos[i][k] > matriz_pesos[i][j] + matriz_pesos[j][k]:
+                    matriz_pesos[i][k] = matriz_pesos[i][j] + matriz_pesos[j][k]
+                    matriz_rede[i][k] = matriz_rede[i][j]
+        
+        
