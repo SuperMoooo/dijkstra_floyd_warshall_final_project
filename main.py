@@ -42,17 +42,30 @@ if __name__ == "__main__":
         caminhos = algoritmos.dijkstra(rede, vertice_origem, vertice_destino, vertices_na_rede, arcos_na_rede)
         fim_tempo = time.time()
         print("Caminhos: ",caminhos)
+        print("----------------------------------------------------")
         print("Caminho custo mínimo: ", caminhos[-1])
         print("Tempo de execução: ", fim_tempo - inicio_tempo)
+        print("----------------------------------------------------")
     except Exception as e:
             print(e)
     try:
         print(":::::::::::::::::::// FLOYD WARSHALL //:::::::::::::::::::")
         
         inicio_tempo = time.time()
-        caminhos = algoritmos.floyd_warshall(rede, vertice_origem, vertice_destino, vertices_na_rede, arcos_na_rede)
+        pesos = algoritmos.floyd_warshall(vertice_origem, vertice_destino, vertices_na_rede, arcos_na_rede)
         fim_tempo = time.time()
+
+        caminho = [vertice_origem]
+        x = vertice_origem - 1
+        y = vertice_destino - 1
+        while caminho[-1] != vertice_destino:
+            caminho.append(pesos[x][y])
+            x = pesos[x][y] - 1
+        
+        print("----------------------------------------------------")
+        print("Caminho custo mínimo: ", caminho)
         print("Tempo de execução: ", fim_tempo - inicio_tempo)
+        print("----------------------------------------------------")
         print("::::::::::::::::::://:::::::::::::::::::")
     except Exception as e:
             print(e)

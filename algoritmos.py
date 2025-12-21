@@ -132,7 +132,7 @@ def dijkstra(rede : dict, vertice_origem : int, vertice_destino : int, vertices_
 
 
 
-def floyd_warshall(rede : dict, vertice_origem : int, vertice_destino : int, vertices_na_rede : list , arcos_na_rede : list):
+def floyd_warshall(vertice_origem : int, vertice_destino : int, vertices_na_rede : list , arcos_na_rede : list):
     tamanho = len(vertices_na_rede)
 
     matriz_pesos = [[vertices_na_rede[j] for j in range(tamanho)] for _ in range(tamanho)]
@@ -153,9 +153,14 @@ def floyd_warshall(rede : dict, vertice_origem : int, vertice_destino : int, ver
                     matriz_rede[i][k] = matriz_rede[i][j] + matriz_rede[j][k]
                     matriz_pesos[i][k] = matriz_pesos[i][j]
     
+    if matriz_rede[vertice_origem - 1][vertice_destino - 1] == float("inf"):
+        raise Exception("Não existe caminho possível")
+
     for matriz in matriz_rede:
         print(matriz)
 
     for matriz in matriz_pesos:
         print(matriz)
+
+    return matriz_pesos
 
