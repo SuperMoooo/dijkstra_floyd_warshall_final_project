@@ -17,10 +17,6 @@ def dijkstra(rede : dict, vertice_origem : int, vertice_destino : int, vertices_
     # vértices por usar
     temporarios = [i for i in vertices_na_rede if i != vertice_origem]
 
-    # histórico de todos os caminhos
-    # cada vértice vai ter o seu historico
-    historico = {}
-
     # melhores custos por vértice
     melhores_custos = {}
     for vertice in vertices_na_rede:
@@ -37,24 +33,7 @@ def dijkstra(rede : dict, vertice_origem : int, vertice_destino : int, vertices_
 
         # guardar o vértice que estamos a testar
         vertice_key = permanentes[-1]
-
-        # e adicionar ao histórico
-        if historico.get(vertice_key) == None:
-            historico[vertice_key] = [[]]
         
-
-        if passo - 1 != 0:
-            # garantir que existe a lista do lado direito do passo atual
-            historico[vertice_key].append([])
-
-            for arco in historico[permanentes[-2]][-1]:
-                historico[vertice_key][-2].append({
-                    "de": arco["de"],
-                    "para": arco["para"],
-                    "custo": arco["custo"],
-                    "anterior": True
-                    })
-
         # vai vértice a vértice dos temporários
         for vertice_temp in temporarios:
             # Adicionar ao historico de passos o passo anterior para saber o mínimo
@@ -66,27 +45,11 @@ def dijkstra(rede : dict, vertice_origem : int, vertice_destino : int, vertices_
                     custo_total = arco["custo"]
                     if passo > 1:
                         custo_total = arco["custo"] + caminhos[-1]["custos"][-1]
-                    historico[vertice_key][-1].append({
-                        "de": vertice_key,
-                        "para": vertice_temp,
-                        "custo": custo_total,
-                        "anterior": False
-                    })
                     if custo_total < melhores_custos[vertice_temp]["custo"]:
                         melhores_custos[vertice_temp] = {
                             "custo": custo_total,
                             "origem": vertice_key
                         }
-
-            if vertice_temp not in (arco["para"] for arco in historico[vertice_key][-1]):
-                # guardar como infinito
-                historico[vertice_key][-1].append({
-                    "de": vertice_key,
-                    "para": vertice_temp,
-                    "custo": float("inf"),
-                    "anterior": False
-                })
-      
             
         # escolher o vértice com valor mais pequeno
    
