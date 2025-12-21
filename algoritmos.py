@@ -139,13 +139,16 @@ def floyd_warshall(rede : dict, vertice_origem : int, vertice_destino : int, ver
 
     matriz_rede = [[float("inf") for _ in range(tamanho)] for _ in range(tamanho)]
 
+    for i in range(tamanho):
+        matriz_rede[i][i] = 0
+
     for arco in arcos_na_rede:
         matriz_rede[arco["de"] - 1][arco["para"] - 1] = arco["custo"]
 
     
-    for j in range(len(vertices_na_rede)):
-        for i in range(len(vertices_na_rede)):
-            for k in range(len(vertices_na_rede)):
+    for j in range(tamanho):
+        for i in range(tamanho):
+            for k in range(tamanho):
                 if matriz_rede[i][k] > matriz_rede[i][j] + matriz_rede[j][k]:
                     matriz_rede[i][k] = matriz_rede[i][j] + matriz_rede[j][k]
                     matriz_pesos[i][k] = matriz_pesos[i][j]

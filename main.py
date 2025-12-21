@@ -44,7 +44,9 @@ if __name__ == "__main__":
         print("Caminhos: ",caminhos)
         print("Caminho custo mínimo: ", caminhos[-1])
         print("Tempo de execução: ", fim_tempo - inicio_tempo)
-
+    except Exception as e:
+            print(e)
+    try:
         print(":::::::::::::::::::// FLOYD WARSHALL //:::::::::::::::::::")
         
         inicio_tempo = time.time()
@@ -53,7 +55,8 @@ if __name__ == "__main__":
         print("Tempo de execução: ", fim_tempo - inicio_tempo)
         print("::::::::::::::::::://:::::::::::::::::::")
     except Exception as e:
-        print(e)
+            print(e)
+    
 
     # algoritmos.floyd_warshall(rede)
     pass
